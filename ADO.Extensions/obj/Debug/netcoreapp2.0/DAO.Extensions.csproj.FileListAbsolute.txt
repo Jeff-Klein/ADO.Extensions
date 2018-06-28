@@ -1,0 +1,9 @@
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\bin\Debug\netcoreapp2.0\DAO.Extensions.deps.json
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\bin\Debug\netcoreapp2.0\DAO.Extensions.dll
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\bin\Debug\netcoreapp2.0\DAO.Extensions.pdb
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.csproj.CoreCompileInputs.cache
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.AssemblyInfoInputs.cache
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.AssemblyInfo.cs
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.dll
+C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\netcoreapp2.0\DAO.Extensions.pdb
