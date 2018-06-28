@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAO.Extensions\ADO.Extensions.csproj" />
+    <ProjectReference Include="..\ADO.Extensions\ADO.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

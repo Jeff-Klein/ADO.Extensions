@@ -5747,7 +5747,6 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "ADO.Extensions >= 1.0.0",
-      "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj",
       "Microsoft.NET.Test.Sdk >= 15.5.0",
       "Microsoft.NETCore.App >= 2.0.0",
       "xunit >= 2.3.1",
@@ -5787,9 +5786,6 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj": {
-              "projectPath": "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj"
-            },
             "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\ADO.Extensions\\ADO.Extensions.csproj": {
               "projectPath": "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\ADO.Extensions\\ADO.Extensions.csproj"
             }
@@ -5830,16 +5826,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.0"
-      ]
-    }
-  ]
+  }
 }
