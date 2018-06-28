@@ -609,6 +609,15 @@
           "lib/netstandard1.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Oracle.ManagedDataAccess.Core/2.12.0-beta2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Oracle.ManagedDataAccess.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Oracle.ManagedDataAccess.dll": {}
+        }
+      },
       "runtime.native.System/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1675,6 +1684,19 @@
         "build": {
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "ADO.Extensions/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "Oracle.ManagedDataAccess.Core": "2.12.0-beta2"
+        },
+        "compile": {
+          "bin/placeholder/ADO.Extensions.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ADO.Extensions.dll": {}
+        }
       }
     }
   },
@@ -2556,6 +2578,19 @@
         "newtonsoft.json.9.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "tools/install.ps1"
+      ]
+    },
+    "Oracle.ManagedDataAccess.Core/2.12.0-beta2": {
+      "sha512": "Rwi2ys28cMuE+X+fKd8Yp5O9yqHlvEj7EAtG5k1fXwQ8zqWkB79KD3U0Ff/HFYxlg492AD2R4QWtIUQYGyXZBQ==",
+      "type": "package",
+      "path": "oracle.manageddataaccess.core/2.12.0-beta2",
+      "files": [
+        "ODP.NET-Core-12.2-Beta2-Documentation.pdf",
+        "info.txt",
+        "lib/netstandard2.0/Oracle.ManagedDataAccess.dll",
+        "oracle.manageddataaccess.core.2.12.0-beta2.nupkg.sha512",
+        "oracle.manageddataaccess.core.nuspec",
+        "readme.txt"
       ]
     },
     "runtime.native.System/4.0.0": {
@@ -5702,10 +5737,16 @@
         "xunit.runner.visualstudio.2.3.1.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "ADO.Extensions/1.0.0": {
+      "type": "project",
+      "path": "../ADO.Extensions/ADO.Extensions.csproj",
+      "msbuildProject": "../ADO.Extensions/ADO.Extensions.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "ADO.Extensions >= 1.0.0",
       "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj",
       "Microsoft.NET.Test.Sdk >= 15.5.0",
       "Microsoft.NETCore.App >= 2.0.0",
@@ -5748,6 +5789,9 @@
           "projectReferences": {
             "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj": {
               "projectPath": "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\DAO.Extensions\\ADO.Extensions.csproj"
+            },
+            "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\ADO.Extensions\\ADO.Extensions.csproj": {
+              "projectPath": "C:\\Users\\jeferson.klein\\source\\repos\\ADO.Extensions\\ADO.Extensions\\ADO.Extensions.csproj"
             }
           }
         }
