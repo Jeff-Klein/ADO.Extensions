@@ -1,4 +1,5 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using ADO.Extensions.Reflection;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -40,25 +41,9 @@ namespace ADO.Extensions.DBContext
 
             while (result.Read())
             {
-                T obj = new T();
-
-                foreach (var prop in properties)
-                {
-                    try
-                    {
-                        var cellValue = result[prop.CustomAttributes.First().ConstructorArguments[0].Value.ToString()];
-                        TrySetProperty(obj, prop.Name, cellValue);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Write("Column not found: " + prop.CustomAttributes.First().ConstructorArguments[0].Value.ToString());
-                        Console.Write(ex);
-                        continue; //force reading the next column
-                    }
-                }
-
+                PropertyReader<T> propertyReader = new PropertyReader<T>();
+                T obj = propertyReader.CreateObject(result);
                 returnList.Add(obj);
-
             }
 
             oracleConnection.Close();
@@ -91,7 +76,7 @@ namespace ADO.Extensions.DBContext
 
             while (dr.Read())
             {
-                T obj = new T();
+               /* T obj = new T();
 
                 foreach (var prop in properties)
                 {
@@ -108,7 +93,7 @@ namespace ADO.Extensions.DBContext
 
                     if (!isComputed)
                         TrySetProperty(obj, prop.Name, dr[columnName]);
-                }
+                }*/
 
                 returnList.Add(obj);
 
@@ -227,13 +212,6 @@ namespace ADO.Extensions.DBContext
             {
                 return new DBResult(false, ex.Message);
             }
-        }
-
-        private void TrySetProperty(object obj, string property, object value)
-        {
-            var prop = obj.GetType().GetProperty(property, BindingFlags.Public | BindingFlags.Instance);
-            if (prop != null && prop.CanWrite && !DBNull.Value.Equals(value))
-                prop.SetValue(obj, value, null);
-        }
+        }       
     }
 }
