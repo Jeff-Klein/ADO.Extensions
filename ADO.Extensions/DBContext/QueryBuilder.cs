@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ADO.Extensions.Reflection;
+using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace ADO.Extensions.DBContext
 {
-    internal class QueryBuilder<T>
+    internal class QueryBuilder<T> where T : new()
     {
         internal string GetSelectAllQuery(string where, string orderBy)
         {
@@ -18,29 +17,21 @@ namespace ADO.Extensions.DBContext
 
             string sqlQuery = "SELECT ";
             bool first = true;
-            PropertyInfo[] properties;
-            properties = typeof(T).GetProperties();
 
-            foreach (var prop in properties)
+            T obj = new T();
+
+            PropertyReader<T> propertyReader = new PropertyReader<T>();
+            var propList = propertyReader.GetAllProperties(obj);
+
+            foreach (var prop in propList)
             {
-                var columnName = "";
-                var isComputed = false;
-
-                foreach (var customAtr in prop.CustomAttributes)
-                {
-                    if (customAtr.AttributeType.Name == "ColumnNameAttribute")
-                        columnName = customAtr.ConstructorArguments[0].Value.ToString();
-                    else if (customAtr.AttributeType.Name == "IsComputedAttribute" && Convert.ToBoolean(customAtr.ConstructorArguments[0].Value))
-                        isComputed = true;
-                }
-
-                if (isComputed)
+                if (prop.IsComputed)
                     continue;
 
                 if (first)
-                    sqlQuery += columnName;
+                    sqlQuery += prop.ColumnName;
                 else
-                    sqlQuery += ", " + columnName;
+                    sqlQuery += ", " + prop.ColumnName;
 
                 first = false;
             }
@@ -59,30 +50,24 @@ namespace ADO.Extensions.DBContext
             var tableName = typeof(T).CustomAttributes.First().ConstructorArguments[0].Value;
             insertCommand += tableName + " VALUES(";
 
-            var propList = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            PropertyReader<T> propertyReader = new PropertyReader<T>();
+            var propList = propertyReader.GetAllProperties(obj);
 
             foreach (var prop in propList)
             {
-                bool isComputed = false;
 
-                foreach (var customAtr in obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).CustomAttributes)
-                    if (customAtr.AttributeType.Name == "IsComputedAttribute")
-                        isComputed = Convert.ToBoolean(customAtr.ConstructorArguments[0].Value);
-
-                if (isComputed)
+                if (prop.IsComputed)
                     continue;
 
-                var propType = obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).PropertyType.Name;
-
-                if (String.Equals(propType.ToLower(), "string"))
-                    insertCommand += " '" + prop.GetValue(obj, null) + "' ";
-                else if (String.Equals(propType.ToLower(), "date") || String.Equals(propType.ToLower(), "datetime"))
+                if (String.Equals(prop.Type, "string"))
+                    insertCommand += " '" + prop.Value + "' ";
+                else if (String.Equals(prop.Type, "date") || String.Equals(prop.Type, "datetime"))
                 {
-                    DateTime data = Convert.ToDateTime(prop.GetValue(obj, null));
+                    DateTime data = Convert.ToDateTime(prop.Value);
                     insertCommand += " TO_DATE('" + data.ToString("dd/MM/yyyy HH:mm:ss") + "', 'DD/MM/YYYY HH24:MI:SS') ";
                 }
                 else
-                    insertCommand += prop.GetValue(obj, null);
+                    insertCommand += prop.Value;
 
                 if (!propList.Last().Equals(prop))
                     insertCommand += ", ";
@@ -104,45 +89,31 @@ namespace ADO.Extensions.DBContext
             var tableName = typeof(T).CustomAttributes.First().ConstructorArguments[0].Value;
             updateCommand += tableName + " SET ";
 
-            var propList = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            PropertyReader<T> propertyReader = new PropertyReader<T>();
+            var propList = propertyReader.GetAllProperties(obj);
 
             foreach (var prop in propList)
-            {
-                var propType = obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).PropertyType.Name;
-                bool isPK = false;
-                bool isComputed = false;
-                var propDBName = "";
-
-                foreach (var customAtr in obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).CustomAttributes)
-                {
-                    if (customAtr.AttributeType.Name == "ColumnNameAttribute")
-                        propDBName = customAtr.ConstructorArguments[0].Value.ToString();
-                    else if (customAtr.AttributeType.Name == "IsPKAttribute")
-                        isPK = Convert.ToBoolean(customAtr.ConstructorArguments[0].Value);
-                    else if (customAtr.AttributeType.Name == "IsComputedAttribute")
-                        isComputed = Convert.ToBoolean(customAtr.ConstructorArguments[0].Value);
-                }
-
-                if (isComputed)
+            { 
+                if (prop.IsComputed)
                     continue;
-                else if (isPK)
+                else if (prop.IsPK)
                 {
-                    if (String.Equals(propType.ToLower(), "string") || String.Equals(propType.ToLower(), "date") || String.Equals(propType.ToLower(), "datetime"))
-                        where += propDBName + " = '" + prop.GetValue(obj, null) + "' AND ";
+                    if (String.Equals(prop.Type, "string") || String.Equals(prop.Type, "date") || String.Equals(prop.Type, "datetime"))
+                        where += prop.ColumnName + " = '" + prop.Value + "' AND ";
                     else
-                        where += propDBName + " = " + prop.GetValue(obj, null) + " AND ";
+                        where += prop.ColumnName + " = " + prop.Value + " AND ";
                 }
                 else
                 {
-                    if (String.Equals(propType.ToLower(), "string"))
-                        updateCommand += propDBName + " = '" + prop.GetValue(obj, null) + "', ";
-                    else if (String.Equals(propType.ToLower(), "date") || String.Equals(propType.ToLower(), "datetime"))
+                    if (String.Equals(prop.Type, "string"))
+                        updateCommand += prop.ColumnName + " = '" + prop.Value + "', ";
+                    else if (String.Equals(prop.Type, "date") || String.Equals(prop.Value, "datetime"))
                     {
-                        DateTime data = Convert.ToDateTime(prop.GetValue(obj, null));
-                        updateCommand += propDBName + " = TO_DATE('" + data.ToString("dd/MM/yyyy HH:mm:ss") + "', 'DD/MM/YYYY HH24:MI:SS'), ";
+                        DateTime data = Convert.ToDateTime(prop.Value);
+                        updateCommand += prop.ColumnName + " = TO_DATE('" + data.ToString("dd/MM/yyyy HH:mm:ss") + "', 'DD/MM/YYYY HH24:MI:SS'), ";
                     }
                     else
-                        updateCommand += propDBName + " = " + prop.GetValue(obj, null) + ", ";
+                        updateCommand += prop.ColumnName + " = " + prop.Value + ", ";
                 }
             }
 
@@ -164,33 +135,19 @@ namespace ADO.Extensions.DBContext
             var tableName = typeof(T).CustomAttributes.First().ConstructorArguments[0].Value;
             deleteCommand += tableName;
 
-            var propList = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            PropertyReader<T> propertyReader = new PropertyReader<T>();
+            var propList = propertyReader.GetAllProperties(obj);
 
             foreach (var prop in propList)
             {
-                var propType = obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).PropertyType.Name;
-                bool isPK = false;
-                bool isComputed = false;
-                var propDBName = "";
-
-                foreach (var customAtr in obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).CustomAttributes)
-                {
-                    if (customAtr.AttributeType.Name == "ColumnNameAttribute")
-                        propDBName = customAtr.ConstructorArguments[0].Value.ToString();
-                    else if (customAtr.AttributeType.Name == "IsPKAttribute")
-                        isPK = Convert.ToBoolean(customAtr.ConstructorArguments[0].Value);
-                    else if (customAtr.AttributeType.Name == "IsComputedAttribute")
-                        isComputed = Convert.ToBoolean(customAtr.ConstructorArguments[0].Value);
-                }
-
-                if (isComputed)
+                if (prop.IsComputed)
                     continue;
-                else if (isPK)
+                else if (prop.IsPK)
                 {
-                    if (String.Equals(propType.ToLower(), "string") || String.Equals(propType.ToLower(), "date") || String.Equals(propType.ToLower(), "datetime"))
-                        where += propDBName + " = '" + prop.GetValue(obj, null) + "' AND ";
+                    if (String.Equals(prop.Type, "string") || String.Equals(prop.Type, "date") || String.Equals(prop.Type, "datetime"))
+                        where += prop.ColumnName + " = '" + prop.Value + "' AND ";
                     else
-                        where += propDBName + " = " + prop.GetValue(obj, null) + " AND ";
+                        where += prop.ColumnName + " = " + prop.Value + " AND ";
                 }
             }
 

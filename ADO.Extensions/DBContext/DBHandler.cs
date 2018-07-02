@@ -3,8 +3,6 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection;
 
 namespace ADO.Extensions.DBContext
 {
@@ -34,15 +32,12 @@ namespace ADO.Extensions.DBContext
             cmd.CommandText = command;
             cmd.CommandType = CommandType.Text;
 
-            OracleDataReader result = cmd.ExecuteReader();
+            OracleDataReader dr = cmd.ExecuteReader();
 
-            PropertyInfo[] properties;
-            properties = typeof(T).GetProperties();
-
-            while (result.Read())
+            while (dr.Read())
             {
                 PropertyReader<T> propertyReader = new PropertyReader<T>();
-                T obj = propertyReader.CreateObject(result);
+                T obj = propertyReader.CreateObjectFromDataReader(dr);
                 returnList.Add(obj);
             }
 
@@ -61,42 +56,17 @@ namespace ADO.Extensions.DBContext
                 oracleConnection.Open();
 
             OracleCommand cmd = new OracleCommand();
-
             cmd.Connection = oracleConnection;
-
             cmd.CommandText = queryBuilder.GetSelectAllQuery(where, orderBy);
-
             cmd.CommandType = CommandType.Text;
 
             OracleDataReader dr = cmd.ExecuteReader();
 
-            PropertyInfo[] properties;
-            properties = typeof(T).GetProperties();
-
-
             while (dr.Read())
             {
-               /* T obj = new T();
-
-                foreach (var prop in properties)
-                {
-                    var columnName = "";
-                    var isComputed = false;
-
-                    foreach (var customAtr in prop.CustomAttributes)
-                    {
-                        if (customAtr.AttributeType.Name == "ColumnNameAttribute")
-                            columnName = customAtr.ConstructorArguments[0].Value.ToString();
-                        else if (customAtr.AttributeType.Name == "IsComputedAttribute" && Convert.ToBoolean(customAtr.ConstructorArguments[0].Value))
-                            isComputed = true;
-                    }
-
-                    if (!isComputed)
-                        TrySetProperty(obj, prop.Name, dr[columnName]);
-                }*/
-
+                PropertyReader<T> propertyReader = new PropertyReader<T>();
+                T obj = propertyReader.CreateObjectFromDataReader(dr);
                 returnList.Add(obj);
-
             }
 
             oracleConnection.Close();
@@ -110,11 +80,8 @@ namespace ADO.Extensions.DBContext
                 oracleConnection.Open();
 
             OracleCommand cmd = new OracleCommand();
-
             cmd.Connection = oracleConnection;
-
             cmd.CommandText = command;
-
             cmd.CommandType = CommandType.Text;
 
             int affectedRow = cmd.ExecuteNonQuery();
@@ -130,11 +97,8 @@ namespace ADO.Extensions.DBContext
                 oracleConnection.Open();
 
             OracleCommand cmd = new OracleCommand();
-
             cmd.Connection = oracleConnection;
-
             cmd.CommandText = command;
-
             cmd.CommandType = CommandType.Text;
 
             var result = cmd.ExecuteScalar();
@@ -198,7 +162,6 @@ namespace ADO.Extensions.DBContext
         {
             try
             {
-
                 QueryBuilder<T> queryBuilder = new QueryBuilder<T>();
 
                 var deleteCommand = queryBuilder.GetDeleteQuery(obj);
