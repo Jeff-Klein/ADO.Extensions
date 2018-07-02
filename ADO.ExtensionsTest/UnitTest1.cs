@@ -10,7 +10,7 @@ namespace ADO.ExtensionsTest
         [Fact]
         public void Test1()
         {
-            DBHandler<Person> dbHandler = new DBHandler<Person>("Data Source = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = cordas)(PORT = 1521))(CONNECT_DATA = (SERVICE_NAME = cordas))); User ID = rtbaux; Password = rtbaux");
+            DBHandler<Person> dbHandler = new DBHandler<Person>("");
             var result = dbHandler.ExecuteReader();
         }
     }
