@@ -1,8 +1,9 @@
 ﻿using ADO.Extensions.Reflection;
 using System;
 using System.Linq;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("ADO.ExtensionsTest")]
 namespace ADO.Extensions.DBContext
 {
     internal class QueryBuilder<T> where T : new()
@@ -107,7 +108,7 @@ namespace ADO.Extensions.DBContext
                 {
                     if (String.Equals(prop.Type, "string"))
                         updateCommand += prop.ColumnName + " = '" + prop.Value + "', ";
-                    else if (String.Equals(prop.Type, "date") || String.Equals(prop.Value, "datetime"))
+                    else if (String.Equals(prop.Type, "date") || String.Equals(prop.Type, "datetime"))
                     {
                         DateTime data = Convert.ToDateTime(prop.Value);
                         updateCommand += prop.ColumnName + " = TO_DATE('" + data.ToString("dd/MM/yyyy HH:mm:ss") + "', 'DD/MM/YYYY HH24:MI:SS'), ";

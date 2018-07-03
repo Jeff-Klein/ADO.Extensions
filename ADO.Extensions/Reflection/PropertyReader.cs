@@ -15,7 +15,6 @@ namespace ADO.Extensions.Reflection
             foreach (var prop in properties)
             {
                 CustomProperty customProperty = new CustomProperty();
-                customProperty.DefaultProperties = prop;
 
                 customProperty.Type = obj.GetType().GetProperty(prop.Name, BindingFlags.Public | BindingFlags.Instance).PropertyType.Name.ToLower();
                 customProperty.Value = prop.GetValue(obj, null);

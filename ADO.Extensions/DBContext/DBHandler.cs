@@ -15,6 +15,11 @@ namespace ADO.Extensions.DBContext
             oracleConnection = new OracleConnection(connectionString);
         }
 
+        public DBHandler(OracleConnection connection)
+        {
+            oracleConnection = connection;
+        }
+
         public List<T> ExecuteReader()
         {
             return ExecuteReader("", "");

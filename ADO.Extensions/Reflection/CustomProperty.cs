@@ -8,7 +8,6 @@ namespace ADO.Extensions.Reflection
 {
     internal class CustomProperty
     {
-        internal PropertyInfo DefaultProperties { get; set; }
         internal String TableName { get; set; }
         internal String Type { get; set; }
         internal String ColumnName { get; set; }

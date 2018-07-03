@@ -1,14 +1,22 @@
 ﻿using ADO.Extensions.Reflection;
+using System;
 
 namespace ADO.ExtensionsTest.DBModel
 {
-    [TableName("ENG_USUARIO")]
+    [TableName("PERSON")]
     public class Person
     {
-        [ColumnName("COD_USUARIO"), IsPK(true)]
-        public string CodUsuario { get; set; }
+        [ColumnName("ID"), IsPK(true)]
+        public decimal Id { get; set; }
 
-        [ColumnName("SENHA"), IsPK(true)]
-        public string Senha { get; set; }
+        [ColumnName("FULL_NAME")]
+        public string FullName { get; set; }
+
+        [ColumnName("BIRTHDAY")]
+        public DateTime Birthday { get; set; }
+
+        [ColumnName("AGE"), IsComputed(true)]
+        public decimal Age { get; set; }
+
     }
 }
