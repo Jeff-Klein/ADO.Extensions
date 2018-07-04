@@ -1,8 +1,12 @@
-﻿using ADO.Extensions.Reflection;
+﻿using ADO.Extensions.DBContext;
+using ADO.Extensions.Reflection;
+using ADO.ExtensionsTest.DBContext;
 using ADO.ExtensionsTest.DBModel;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Data.Common;
+using System.Linq;
 using Xunit;
 
 namespace ADO.ExtensionsTest.Reflection
@@ -31,9 +35,11 @@ namespace ADO.ExtensionsTest.Reflection
 
             var result = propertyReader.GetAllProperties(person);
 
+            var differences = customProperties.Except(result, new CustomPropertyComparer());
 
-            if (result.Count != 4) // compare the list
+            if (differences.Count() > 0)
                 Assert.False(true);
         }
+
     }
 }

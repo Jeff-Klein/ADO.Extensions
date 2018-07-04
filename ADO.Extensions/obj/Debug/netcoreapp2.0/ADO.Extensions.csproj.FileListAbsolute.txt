@@ -10,7 +10,6 @@ C:\Users\jeferson.klein\source\repos\DAO.Extensions\DAO.Extensions\obj\Debug\net
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\bin\Debug\netcoreapp2.0\ADO.Extensions.deps.json
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\bin\Debug\netcoreapp2.0\ADO.Extensions.dll
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\bin\Debug\netcoreapp2.0\ADO.Extensions.pdb
-C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\obj\Debug\netcoreapp2.0\ADO.Extensions.csprojResolveAssemblyReference.cache
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\obj\Debug\netcoreapp2.0\ADO.Extensions.csproj.CoreCompileInputs.cache
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\obj\Debug\netcoreapp2.0\ADO.Extensions.AssemblyInfoInputs.cache
 C:\Users\jeferson.klein\source\repos\ADO.Extensions\ADO.Extensions\obj\Debug\netcoreapp2.0\ADO.Extensions.AssemblyInfo.cs

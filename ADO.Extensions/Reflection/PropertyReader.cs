@@ -1,6 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Reflection;
 
 namespace ADO.Extensions.Reflection
@@ -35,7 +36,7 @@ namespace ADO.Extensions.Reflection
             return customProperties;
         }
 
-        internal T CreateObjectFromDataReader(OracleDataReader result)
+        internal T CreateObjectFromDataReader(DbDataReader result)
         {
             PropertyInfo[] properties;
             properties = typeof(T).GetProperties();
@@ -51,7 +52,8 @@ namespace ADO.Extensions.Reflection
                 {
                     if (customAtr.AttributeType.Name == "ColumnNameAttribute")
                         columnName = customAtr.ConstructorArguments[0].Value.ToString();
-                    else if (customAtr.AttributeType.Name == "IsComputedAttribute" && Convert.ToBoolean(customAtr.ConstructorArguments[0].Value))
+                    else if (customAtr.AttributeType.Name == "IsComputedAttribute"
+                        && Convert.ToBoolean(customAtr.ConstructorArguments[0].Value))
                         isComputed = true;
                 }
 
