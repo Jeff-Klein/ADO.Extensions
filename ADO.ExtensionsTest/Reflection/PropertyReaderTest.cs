@@ -1,11 +1,7 @@
-﻿using ADO.Extensions.DBContext;
-using ADO.Extensions.Reflection;
-using ADO.ExtensionsTest.DBContext;
+﻿using ADO.Extensions.Reflection;
 using ADO.ExtensionsTest.DBModel;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using Xunit;
 
