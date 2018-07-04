@@ -4,7 +4,6 @@
 
 <h3>This library is written in .NET Core 2 and currently only supports Oracle database.<h3>
 
-<br>
 <h4>How it works</h4>
 
 In order to use the available methods, you need to create an intance of the DBHandler class, passing a model as type.
@@ -43,7 +42,7 @@ For example:
     }
 ```
 
-The available attributes are:
+<h4>The available attributes are:</h4>
 
 | Attribute  | Description |
 | ------------- | ------------- |
@@ -53,13 +52,13 @@ The available attributes are:
 |IsComputed| Mark it as true if you want this property to be ignored. If it dosen't represent any column of the given table |
 
 
-Current methods avaliable are:
+<h4>Current methods avaliable are:</h4>
 
 | Method  | Description | Parameters |
 | ------------- | ------------- | ------------- |
 |ExecuteReader| Returns all fields and rows. Should be used when you don't have a where clause. | None |
 |ExecuteReader| Returns all fields and rows given an where clause  | String where, String orderBy |
-|ExecuteNonQuery|xecutes a spefic query it receives by parameter and returns the amount of rows affected.| Should be use for spefic updates, inserts, deletes, etc. |String command|
+|ExecuteNonQuery|Executes a spefic query it receives by parameter and returns the amount of rows affected. Should be use for spefic updates, inserts, deletes, etc. |String command|
 |ExecuteScalar| Executes a spefic query it receives by parameter and returns and object. Should be use when no other method fits your need. |String command|
 |Insert|Receives and object and inserts it into the database. |Object obj|
 |Store|Use it when you don't know if the object exists in the database. It will try to insert or update the given values.  |Object obj|
