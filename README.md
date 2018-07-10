@@ -54,21 +54,21 @@ For example:
 
 <h4>Current methods avaliable are:</h4>
 
-| Method  | Description | Parameters |
-| ------------- | ------------- | ------------- |
-|ExecuteReader| Returns all records from the table. Should be used when you don't have a where clause. | None |
-|ExecuteReader| Returns all records from the table, given an where clause  | String where, String orderBy |
-|ExecuteNonQuery|Executes a spefic query it receives by parameter and returns the amount of rows affected. Should be use for spefic updates, inserts, deletes, etc. |String command|
-|ExecuteScalar| Executes a spefic query it receives by parameter and returns and object. Should be use when no other method fits your need. |String command|
-|Insert|Receives and object and inserts it into the database. |Object obj|
-|Store|Use it when you don't know if the object exists in the database. It will try to insert or update the given values.  |Object obj|
-|Update|Receives and object and updates it into the database. |Object obj|
-|Delete|Receives and object and deletes it into the database. |Object obj|
+| Method  | Description | Parameters | Return Type |
+| ------------- | ------------- | ------------- | ------------- |
+|ExecuteReader| Returns all records from the table. Should be used when you don't have a where clause. | None | List<T> |
+|ExecuteReader| Returns all records from the table, given an where clause  | String where, String orderBy | List<T> |
+|ExecuteNonQuery|Executes a spefic query it receives by parameter and returns the amount of rows affected. Should be use for spefic updates, inserts, deletes, etc. |String command| int |
+|ExecuteScalar| Executes a spefic query it receives by parameter and returns and object. Should be use when no other method fits your need. |String command| object |
+|Insert|Receives and object and inserts it into the database. |Object obj| DBResult |
+|Store|Use it when you don't know if the object exists in the database. It will try to insert or update the given values.  |Object obj| DBResult |
+|Update|Receives and object and updates it into the database. |Object obj| DBResult |
+|Delete|Receives and object and deletes it into the database. |Object obj| DBResult |
 
-<h3>Examples:</h3>
+<h2>Examples:</h2>
 In theses examples we are going to use the Person model you saw previously.
 
-<h2>ExecuteReader</h2>
+<h3>ExecuteReader</h3>
 Gets the first 10 records from the PERSON table and prints the full name to console.
 
 ```cs
@@ -79,7 +79,32 @@ foreach(var person in people)
     Console.WriteLine(person.FullName);
 ```
 
-<h2>Store</h2>
+<h3>ExecuteNonQuery</h3>
+If you want to write you won custom query you can. Works just like the stardart ExecuteNonQuery.
+
+```cs
+string sqlQuery = " INSERT INTO PERSON VALUES(88, 'Jeff Klein', TO_DATE('02/02/1989 00:00:00', 'DD/MM/YYYY HH24:MI:SS') ";
+
+DBHandler<Person> dbHandler = new DBHandler<Person>();
+int rowsAffected = dbHandler.ExecuteNonQuery(sqlQuery);
+
+Console.WriteLine(string.Concat(rowsAffected, " rows affected."));
+```
+
+<h3>ExecuteScalar</h3>
+Gets the max ID value out of the PERSON table.
+
+```cs
+
+string sqlQuery = "SELECT MAX(ID) FROM PERSON";
+
+DBHandler<Person> dbHandler = new DBHandler<Person>();
+var maxID = dbHandler.ExecuteScalar(sqlQuery);
+
+Console.WriteLine(maxID.ToString().Trim());
+```
+
+<h3>Store</h3>
 Create a new Person object and stores it in the database. 
 The Update and Insert methods work the same. Just create an object and pass to it.
 
@@ -95,7 +120,7 @@ DBHandler<Person> dbHandler = new DBHandler<Person>();
 dbHandler.Store(person);
 ```
 
-<h2>Delete</h2>
+<h3>Delete</h3>
 To delete you have to pass at least the primary key properties.
 
 ```cs
