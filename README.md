@@ -83,7 +83,7 @@ foreach(var person in people)
 If you want to write you won custom query you can. Works just like the stardart ExecuteNonQuery.
 
 ```cs
-string sqlQuery = " INSERT INTO PERSON VALUES(88, 'Jeff Klein', TO_DATE('02/02/1989 00:00:00', 'DD/MM/YYYY HH24:MI:SS') ";
+string sqlQuery = " INSERT INTO PERSON VALUES(88, 'Jeff Klein', TO_DATE('02/02/1989 00:00:00') ";
 
 DBHandler<Person> dbHandler = new DBHandler<Person>();
 int rowsAffected = dbHandler.ExecuteNonQuery(sqlQuery);
