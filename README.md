@@ -56,8 +56,8 @@ For example:
 
 | Method  | Description | Parameters | Return Type |
 | ------------- | ------------- | ------------- | ------------- |
-|ExecuteReader| Returns all records from the table. Should be used when you don't have a where clause. | None | List<T> |
-|ExecuteReader| Returns all records from the table, given an where clause  | String where, String orderBy | List<T> |
+|ExecuteReader| Returns all records from the table. Should be used when you don't have a where clause. | None | List&lt;T> |
+|ExecuteReader| Returns all records from the table, given an where clause  | String where, String orderBy | List&lt;T> |
 |ExecuteNonQuery|Executes a spefic query it receives by parameter and returns the amount of rows affected. Should be use for spefic updates, inserts, deletes, etc. |String command| int |
 |ExecuteScalar| Executes a spefic query it receives by parameter and returns and object. Should be use when no other method fits your need. |String command| object |
 |Insert|Receives and object and inserts it into the database. |Object obj| DBResult |
