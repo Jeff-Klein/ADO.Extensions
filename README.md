@@ -9,7 +9,7 @@
 In order to use the available methods, you need to create an intance of the DBHandler class, passing a model as type.
 For example:
 ```cs
-DBHandler<Person> dbHandler = new DBHandler<Person>();
+DBHandler<Person> dbHandler = new DBHandler<Person>("connection string here");
 ```
 Where Person is your class model.
 
@@ -72,7 +72,7 @@ In theses examples we are going to use the Person model you saw previously.
 Gets the first 10 records from the PERSON table and prints the full name to console.
 
 ```cs
-DBHandler<Person> dbHandler = new DBHandler<Person>(""connection string here");
+DBHandler<Person> dbHandler = new DBHandler<Person>();
 List<Person> people = dbHandler.ExecuteReader(" ID <= 10 ", " ID ");
 
 foreach(var person in people)
