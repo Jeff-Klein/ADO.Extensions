@@ -72,7 +72,7 @@ In theses examples we are going to use the Person model you saw previously.
 Gets the first 10 records from the PERSON table and prints the full name to console.
 
 ```cs
-DBHandler<Person> dbHandler = new DBHandler<Person>();
+DBHandler<Person> dbHandler = new DBHandler<Person>(""connection string here");
 List<Person> people = dbHandler.ExecuteReader(" ID <= 10 ", " ID ");
 
 foreach(var person in people)
